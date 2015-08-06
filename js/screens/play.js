@@ -4,19 +4,22 @@ game.PlayScreen = me.ScreenObject.extend({
      */
     onResetEvent: function() {
         // load a level
-        me.levelDirector.loadLevel("index");
+
         game.data.score = 0;
+
+        // add count down timer
+        this.TimerHUD = new game.HUD.TimerManager();
+        me.game.world.addChild(this.TimerHUD);
 
         // add our HUD to the game world
         this.HUD = new game.HUD.Container();
         me.game.world.addChild(this.HUD);
-//        me.levelDirector.loadLevel("isometric");
+        
+        me.levelDirector.loadLevel("index");
     },
-
     /**
      *  action to perform on state change
      */
     onDestroyEvent: function() {
-        me.game.world.removeChild(this.HUD);
     }
 });

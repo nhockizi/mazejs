@@ -46,10 +46,12 @@ var game = {
         me.state.set(me.state.PLAY, new game.PlayScreen());
 
         // set the fade transition effect
-        me.state.transition("fade", "#FFFFFF", 250);
+        me.state.transition("fade", "#000", 250);
 
         // register our objects entity in the object pool
         me.pool.register("mainPlayer", game.PlayerEntity);
+        me.pool.register("CoinEntity", game.CoinEntity);
+        me.pool.register("EnemyEntity", game.EnemyEntity);
 
         // switch to PLAY state
         me.state.change(me.state.PLAY);
