@@ -1,9 +1,15 @@
+var _base_url = "";
 game.resources = [
-    {name: "forest", type: "image", src: "data/img/forest.png"},
-    {name: "meta_collide", type: "image", src: "data/img/meta_collide.png"},
-    {name: "Blank_Sprite_Sheet_4_2_by_KnightYamato", type: "image", src: "data/img/Blank_Sprite_Sheet_4_2_by_KnightYamato.png"},
-    {name: "spinning_coin_gold",  type:"image",	src: "data/img/spinning_coin_gold.png"},
-    {name: "isometric", type: "tmx", src: "data/map/isometric.tmx"},
-    {name: "index", type: "tmx", src: "data/map/index.tmx"},
-    {name: "atascii", type: "image", src: "data/img/atascii_24px.png"},
+    {name: "forest", type: "image", src: _base_url + "data/img/forest.png"},
+    {name: "meta_collide", type: "image", src: _base_url + "data/img/meta_collide.png"},
+    {name: "Blank_Sprite_Sheet_4_2_by_KnightYamato", type: "image", src: _base_url + "data/img/Blank_Sprite_Sheet_4_2_by_KnightYamato.png"},
+    {name: "spinning_coin_gold", type: "image", src: _base_url + "data/img/spinning_coin_gold.png"},
+    {name: "carrots", type: "image", src: _base_url + "data/img/carrots.png"},
+    {name: "index", type: "tmx", src: _base_url + "data/map/index.tmx"},
+    {name: "atascii", type: "image", src: _base_url + "data/img/atascii_24px.png"},
+    {name: "area01_level_tiles", type: "image", src: _base_url + "data/img/area01_level_tiles.png"},
+    {name: "gameoverbg", type: "image", src: _base_url + "data/img/gameoverbgfull.png"},
+    {name: "btnplayagain", type: "image", src: _base_url + "data/img/btnplayagain.png"},
+    {name: "btnplaynow", type: "image", src: _base_url + "data/img/btnplaynow.png"},
+    {name: "complete", type: "image", src: _base_url + "data/img/item_complete.png"},
 ];

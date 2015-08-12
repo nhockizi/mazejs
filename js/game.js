@@ -13,7 +13,7 @@ var game = {
     onload: function() {
 
         // init the video
-        if (!me.video.init(800, 600, {wrapper: "screen", scale: 'auto'})) {
+        if (!me.video.init(640, 640, {wrapper: "screen", scale: 'auto'})) {
             alert("Your browser does not support HTML5 canvas.");
             return;
         }
@@ -35,7 +35,7 @@ var game = {
         me.loader.preload(game.resources);
 
         // load everything & display a loading screen
-        me.state.change(me.state.LOADING);
+//        me.state.change(me.state.LOADING);
     },
     /**
      * callback when everything is loaded
@@ -43,17 +43,32 @@ var game = {
     loaded: function() {
 
         // set the "Play/Ingame" Screen Object
+        me.state.set(me.state.MENU, new game.TitleScreen());
         me.state.set(me.state.PLAY, new game.PlayScreen());
-
-        // set the fade transition effect
-        me.state.transition("fade", "#000", 250);
-
-        // register our objects entity in the object pool
+        me.state.set(me.state.GAME_OVER, new game.GameOverScreen());
         me.pool.register("mainPlayer", game.PlayerEntity);
         me.pool.register("CoinEntity", game.CoinEntity);
-        me.pool.register("EnemyEntity", game.EnemyEntity);
+        me.pool.register("exit", game.Exit);
+        me.event.subscribe(me.event.KEYDOWN, function(action, keyCode, edge) {
 
+            // change global volume setting
+            if (keyCode === me.input.KEY.PLUS) {
+                // increase volume
+                me.audio.setVolume(me.audio.getVolume() + 0.1);
+            } else if (keyCode === me.input.KEY.MINUS) {
+                // decrease volume
+                me.audio.setVolume(me.audio.getVolume() - 0.1);
+            }
+            // toggle fullscreen on/off
+            if (keyCode === me.input.KEY.F) {
+                if (!me.device.isFullscreen) {
+                    me.device.requestFullscreen();
+                } else {
+                    me.device.exitFullscreen();
+                }
+            }
+        });
         // switch to PLAY state
-        me.state.change(me.state.PLAY);
+        me.state.change(me.state.MENU);
     }
 };
