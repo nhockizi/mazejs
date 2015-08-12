@@ -48,6 +48,7 @@ var game = {
         me.state.set(me.state.GAME_OVER, new game.GameOverScreen());
         me.pool.register("mainPlayer", game.PlayerEntity);
         me.pool.register("CoinEntity", game.CoinEntity);
+        me.pool.register("SpecialEntity", game.SpecialEntity);
         me.pool.register("exit", game.Exit);
         me.event.subscribe(me.event.KEYDOWN, function(action, keyCode, edge) {
 

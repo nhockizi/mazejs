@@ -114,7 +114,34 @@ game.CoinEntity = me.CollectableEntity.extend(
                 return false;
             }
         });
+game.SpecialEntity = me.CollectableEntity.extend(
+        {
+            init: function(x, y, settings)
+            {
+                // call the parent constructor
+                this._super(me.CollectableEntity, 'init', [x, y, settings]);
+                var animationSheet = new me.AnimationSheet(100, 100, {
+                    image: "spinning_coin_gold",
+                    framewidth: 32,
+                    frameheight: 32
+                  });
+            },
+            /**
+             * colision handler
+             */
+            onCollision: function(response, other) {
 
+                // give some score
+//                game.data.score += 250;
+
+                //avoid further collision and delete it
+                this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+
+                me.game.world.removeChild(this);
+
+                return false;
+            }
+        });
 game.PlaceManager = me.Entity.extend(
         {
             init: function()

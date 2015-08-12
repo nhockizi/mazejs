@@ -81,7 +81,7 @@ game.HUD.TimerManager = me.Entity.extend(
                 this._super(me.Container, 'init');
                 // persistent across level change
                 this.isPersistent = true;
-                
+
 
                 // make sure our object is always draw first
                 this.z = Infinity;
@@ -104,11 +104,10 @@ game.HUD.TimerManager = me.Entity.extend(
                         if (glbBonusManager == null)
                         {
                             // Bonus HUD
-                            this.timer.time_remain += 2000;
+                            this.timer.time_remain += 3000;
                             glbBonusManager = new game.HUD.BonusManager(this.timer.time_remain);
                             me.game.world.addChild(glbBonusManager);
                         }
-
                         // Bonus Show
                         glbBonusManager.bonus.update();
 
@@ -119,7 +118,6 @@ game.HUD.TimerManager = me.Entity.extend(
                     glbCompleteMessage = true;
                     me.state.change(me.state.GAME_OVER);
                 }
-
             }
         });
 game.HUD.TimerItem = me.Renderable.extend({
@@ -178,9 +176,9 @@ game.HUD.TimerItem = me.Renderable.extend({
     }
 });
 game.Exit = me.Entity.extend({
-    "onCollision" : function (res, obj) {
+    "onCollision": function(res, obj) {
         glbCompleteGame = true;
-        return true;
+        return false;
 //        me.state.change(me.state.GAME_OVER);
     }
 });
