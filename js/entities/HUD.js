@@ -174,11 +174,13 @@ game.HUD.TimerItem = me.Renderable.extend({
         else {
             this.value = this.convert(time_remain);
         }
+        return true;
     }
 });
 game.Exit = me.Entity.extend({
     "onCollision" : function (res, obj) {
         glbCompleteGame = true;
+        return true;
 //        me.state.change(me.state.GAME_OVER);
     }
 });
@@ -205,6 +207,7 @@ game.HUD.BonusManager = me.Entity.extend(
                 if (this.bonus.time_remain >= 0) {
                     this.bonus.update();
                 }
+                return true;
             }
         });
 
@@ -246,8 +249,8 @@ game.HUD.BonusItem = me.Renderable.extend({
     update: function()
     {
         this.time_remain -= 1000;
-        console.log(this.time_remain);
         this.value = this.convert(this.time_remain);
+        return true;
     }
 });
 var btnPlayagain = me.GUI_Object.extend({
