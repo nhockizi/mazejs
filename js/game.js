@@ -45,10 +45,15 @@ var game = {
         // set the "Play/Ingame" Screen Object
         me.state.set(me.state.MENU, new game.TitleScreen());
         me.state.set(me.state.PLAY, new game.PlayScreen());
+        me.state.set(me.state.BONUS_QUESTION, new game.BonusQuestionScreen());
         me.state.set(me.state.GAME_OVER, new game.GameOverScreen());
+        
+        
+        
         me.pool.register("mainPlayer", game.PlayerEntity);
-        me.pool.register("CoinEntity", game.CoinEntity);
-        me.pool.register("SpecialEntity", game.SpecialEntity);
+//        me.pool.register("CoinEntity", game.CoinEntity);
+//        me.pool.register("SpecialEntity", game.SpecialEntity);
+            
         me.pool.register("exit", game.Exit);
         me.event.subscribe(me.event.KEYDOWN, function(action, keyCode, edge) {
 
@@ -70,6 +75,6 @@ var game = {
             }
         });
         // switch to PLAY state
-        me.state.change(me.state.MENU);
+        me.state.change(me.state.PLAY);
     }
 };

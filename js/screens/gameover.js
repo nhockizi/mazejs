@@ -10,6 +10,7 @@ game.GameOverScreen = me.ScreenObject.extend({
             me.game.viewport.height / 2 - gImageBoard.height / 2,
             {image : gImageBoard}
         ));
+
         //me.game.world.addChild(new BackgroundLayer('bg', 1));
 
         // PlayAgain button
@@ -85,7 +86,6 @@ game.GameOverScreen = me.ScreenObject.extend({
              }            
         }));
         me.game.world.addChild(this.dialog, 12);
-        
     },
     onDestroyEvent: function() {
         // unregister the event

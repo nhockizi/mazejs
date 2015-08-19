@@ -18,32 +18,7 @@
  </layer>
  <objectgroup name="Player">
   <object id="1" name="mainPlayer" type="actor1m" x="30" y="32" width="32" height="32"/>
-  <object id="24" name="CoinEntity" x="447" y="320" width="32" height="32">
-   <properties>
-    <property name="framewidth" value="32"/>
-    <property name="image" value="spinning_coin_gold"/>
-   </properties>
-  </object>
-  <object id="25" name="CoinEntity" x="288" y="446" width="32" height="32">
-   <properties>
-    <property name="framewidth" value="32"/>
-    <property name="image" value="spinning_coin_gold"/>
-   </properties>
-  </object>
-  <object id="26" name="CoinEntity" x="98" y="508" width="32" height="32">
-   <properties>
-    <property name="framewidth" value="32"/>
-    <property name="image" value="spinning_coin_gold"/>
-   </properties>
-  </object>
-  <object id="48" name="CoinEntity" x="29" y="194" width="32" height="32">
-   <properties>
-    <property name="framewidth" value="32"/>
-    <property name="image" value="spinning_coin_gold"/>
-   </properties>
-  </object>
   <object id="49" name="exit" x="634" y="31" width="1" height="32"/>
-  <object id="81" name="SpecialEntity" x="482" y="514" width="32" height="32"/>
  </objectgroup>
  <layer name="level 3" width="20" height="20" visible="0">
   <data encoding="base64">

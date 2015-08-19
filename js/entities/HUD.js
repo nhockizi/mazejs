@@ -116,7 +116,7 @@ game.HUD.TimerManager = me.Entity.extend(
                 if (glbCompleteGame == true && this.timer.time_remain <= 0 && glbCompleteMessage == false) {
 //                    glbPlaceManager.glbCompleteGame();
                     glbCompleteMessage = true;
-                    me.state.change(me.state.GAME_OVER);
+                    me.state.change(me.state.BONUS_QUESTION);
                 }
             }
         });

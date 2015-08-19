@@ -12,4 +12,10 @@ game.resources = [
     {name: "btnplayagain", type: "image", src: _base_url + "data/img/btnplayagain.png"},
     {name: "btnplaynow", type: "image", src: _base_url + "data/img/btnplaynow.png"},
     {name: "complete", type: "image", src: _base_url + "data/img/item_complete.png"},
+    {name: "btnsubmit", type:"image", src: _base_url + "data/img/btnsubmit.png"},
+    {name: "ansnothing", type:"image", src: _base_url + "data/img/sprite/ans_nothing.png"},
+    {name: "ansselected", type:"image", src: _base_url + "data/img/sprite/ans_selected.png"},
+    {name: "ansright", type:"image", src: _base_url + "data/img/sprite/ans_right.png"},
+    {name: "answrong", type:"image", src: _base_url + "data/img/sprite/ans_wrong.png"},
+    
 ];

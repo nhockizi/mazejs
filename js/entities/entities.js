@@ -104,7 +104,7 @@ game.CoinEntity = me.CollectableEntity.extend(
             onCollision: function(response, other) {
 
                 // give some score
-                game.data.score += 250;
+//                game.data.score += 250;
 
                 //avoid further collision and delete it
                 this.body.setCollisionMask(me.collision.types.NO_OBJECT);
@@ -124,17 +124,12 @@ game.SpecialEntity = me.CollectableEntity.extend(
                     image: "spinning_coin_gold",
                     framewidth: 32,
                     frameheight: 32
-                  });
+                });
             },
             /**
              * colision handler
              */
             onCollision: function(response, other) {
-
-                // give some score
-//                game.data.score += 250;
-
-                //avoid further collision and delete it
                 this.body.setCollisionMask(me.collision.types.NO_OBJECT);
 
                 me.game.world.removeChild(this);
@@ -155,12 +150,83 @@ game.PlaceManager = me.Entity.extend(
                 // call the super constructor
                 this._super(me.Entity, 'init', [0, 0, settings]);
 
+                var _place_first_top = 400;
+                var _place_first_left = 40;
+
+                var _place_width = 175;
+                var _place_height = 120;
+
+                // 3 enemy items 
+                var list_sprite_enemy = [
+                    ["carrots", 255, 31, -10],
+                    ["carrots", 96, 350, -10],
+                    ["carrots", 159, 414, -10]
+                ];
+                // 7 Coin items
+                var list_sprite_coin_1 = [
+                    ["spinning_coin_gold", 448, 446, 50],
+                    ["spinning_coin_gold", 512, 96, 10],
+                    ["spinning_coin_gold", 416, 384, 10],
+                    ["spinning_coin_gold", 287, 448, 50],
+                    ["spinning_coin_gold", 449, 193, 10],
+                    ["spinning_coin_gold", 447, 318, 10],
+                    ["spinning_coin_gold", 479, 511, 10],
+                    ["spinning_coin_gold", 95, 511, 10]
+                ];
+                var list_sprite_coin_2 = list_sprite_coin_1;
+                var list_sprites_coin_tmp = list_sprite_coin_1.concat(list_sprite_coin_2);
+                var list_sprites_coin_shuffle = this.shuffle(list_sprites_coin_tmp);
+
+                // 9 Coin items
+                var list_sprites_coin = [];
+                for (var j = 0; j < 9; j++) {
+                    list_sprites_coin[j] = list_sprites_coin_shuffle[j];
+                }
+
+                // 3 enemy items + 9 Coin items
+                var list_sprites_tmp = list_sprite_enemy.concat(list_sprites_coin);
+                var list_sprites = this.shuffle(list_sprites_tmp);
+                var _width = 32;
+                var _height = 32;
+                // add the first row of places
+                for (var i = 0; i < 2; i++) {
+                    var _item_sprite = list_sprites[i];
+                    var _sprite = _item_sprite[0];
+                    var _x = _item_sprite[1];
+                    var _y = _item_sprite[2];
+                    var _mark = _item_sprite[3];
+                    this.places[i] = new game.PlaceEntity(_x, _y, _sprite, _width, _height, _mark);
+                    me.game.world.addChild(this.places[i], 4);
+                }
+                // add the 2nd row of places
+                for (var i = 2; i < 5; i++) {
+                    var _item_sprite = list_sprites[i];
+                    var _sprite = _item_sprite[0];
+                    var _x = _item_sprite[1];
+                    var _y = _item_sprite[2];
+                    var _mark = _item_sprite[3];
+                    this.places[i] = new game.PlaceEntity(_x, _y, _sprite, _width, _height, _mark);
+                    me.game.world.addChild(this.places[i], 8);
+                }
+                // add the 3rd row of places
+                for (var i = 5; i < 10; i++) {
+                    var _item_sprite = list_sprites[i];
+                    var _sprite = _item_sprite[0];
+                    var _x = _item_sprite[1];
+                    var _y = _item_sprite[2];
+                    var _mark = _item_sprite[3];
+                    this.places[i] = new game.PlaceEntity(_x, _y, _sprite, _width, _height, _mark);
+                    me.game.world.addChild(this.places[i], 12);
+                }
 
                 this.timer = 0;
 
-                // end animation tween
-                this.endTween = null;
-
+            },
+            /*
+             * update function
+             */
+            update: function(dt)
+            {
 
             },
             /**
@@ -176,11 +242,8 @@ game.PlaceManager = me.Entity.extend(
                 this.alpha = 0;
                 var finalPos = me.video.renderer.getHeight() - this.width / 2 - 96;
                 this.endTween
-                        //.to({y: currentPos}, 1000)
-                        //.to({y: finalPos}, 1000)
                         .onComplete(function() {
-                            me.state.change(me.state.GAME_OVER);
-                            //alert("HERE2");
+                            me.state.change(me.state.BONUS_QUESTION);
                         });
                 this.endTween.start();
             },
@@ -198,8 +261,76 @@ game.PlaceManager = me.Entity.extend(
                 // Kết thúc Game
                 this.endAnimation();
 
-//    	window.setTimeout(alert("HOÀN TẤT ("  + game.data.score + " điểm)"), 5000);
+                //window.setTimeout(alert("HOÀN TẤT ("  + game.data.score + " điểm)"), 5000);
 
                 //;
+            },
+            shuffle: function(array) {
+                var counter = array.length, temp, index;
+
+                // While there are elements in the array
+                while (counter > 0) {
+                    // Pick a random index
+                    index = Math.floor(Math.random() * counter);
+
+                    // Decrease counter by 1
+                    counter--;
+
+                    // And swap the last element with it
+                    temp = array[counter];
+                    array[counter] = array[index];
+                    array[index] = temp;
+                }
+
+                return array;
             }
+
         });
+game.PlaceEntity = me.Entity.extend(
+        {
+            //init:function (x, y, sprite, pwidth, pheight) {
+
+            init: function(x, y, sprite, pwidth, pheight, pmark) {
+
+                // call the parent constructor
+                this._super(me.Entity, 'init', [x, y,
+                    {
+                        image: sprite,
+                        width: 32,
+                        height: 32
+                    }]);
+                this.isVisible = false;
+                this.isOut = false;
+                this.timer = 0;
+                this.initialPos = this.pos.y;
+
+                // Status Complete
+                this.isComplete = false;
+
+                // Image
+                this.sprite = sprite;
+                this.mark = pmark;
+
+                // tween to display/hide the places
+                this.displayTween = null;
+                this.hideTween = null;
+
+                // Variables
+                this.alwaysUpdate = !0;
+                this.status = "AIR";
+                this.hand = null;
+
+                //this.body.addShape(new me.Rect(0, 0, pwidth, pheight));
+                this.body.addShape(new me.Rect(pwidth * 0.2, pheight * 0.2, pwidth * 0.6, pheight * 0.6));
+                this.body.onCollision = this.onCollision.bind(this);
+
+            },
+            onCollision: function(a, c)
+            {
+                game.data.score += this.mark;
+                me.game.world.removeChild(this);
+                this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+                this.status = "BIN_" + this.status;
+            }
+        }
+);
