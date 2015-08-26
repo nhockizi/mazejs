@@ -346,11 +346,11 @@ game.PlaceEntity = me.Entity.extend(
         }
 );
 game.UI = me.Renderable.extend({
-    init : function (x,y,w,h) {
-        this._super(me.Renderable, 'init', [x,y,w,h]);
+    init : function () {
+        this._super(me.Renderable, 'init', [35, 395, 50, 50]);
         this.isPersistent = true;
         this.floating = true;
-
+        return false;
         this.dpad = me.loader.getImage("ui-dpad");
         this.button = me.loader.getImage("ui-button");
         // Button areas
@@ -452,9 +452,9 @@ game.UI = me.Renderable.extend({
 
     "draw" : function (context) {
         context.drawImage(this.dpad, 35, 395);
+        
         context.drawImage(this.button, 686, 456);
         context.drawImage(this.button, 806, 456);
-
         if (me.debug.renderHitBox) {
             this.buttons.up.draw(context, "#00f");
             this.buttons.down.draw(context, "#0f0");
