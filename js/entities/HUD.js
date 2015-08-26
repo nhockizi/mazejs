@@ -47,7 +47,7 @@ game.HUD.ScoreItem = me.Renderable.extend({
         this.pos.x = x;
         this.pos.y = y;
         // make sure we use screen coordinates
-        this.floating = true;
+        this.floating = false;
     },
     /**
      * update function

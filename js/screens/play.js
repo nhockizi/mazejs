@@ -38,7 +38,7 @@ game.PlayScreen = me.ScreenObject.extend({
      */
     onDestroyEvent: function() {
 //        if (this.mobile_ui) {
-            me.game.remove(this.mobile_ui, true);
+            me.game.world.removeChild(this.mobile_ui, true);
             this.mobile_ui = null;
 //        }
     }

@@ -352,7 +352,7 @@ game.UI = me.Renderable.extend({
         this.floating = true;
         this.dpad = me.loader.getImage("ui-dpad");
         this.button = me.loader.getImage("ui-button");
-        // Button areas
+//         Button areas
         var buttons = this.buttons = {
             // Directional pad
             "up"    : new game.Triangle(
@@ -448,17 +448,14 @@ game.UI = me.Renderable.extend({
     },
 
     "draw" : function (context) {
-        context.drawImage(this.dpad, 35, 395);
-        
-        context.drawImage(this.button, 686, 456);
-        context.drawImage(this.button, 806, 456);
+        context.drawImage(this.dpad, 200, 420);
         if (me.debug.renderHitBox) {
             this.buttons.up.draw(context, "#00f");
             this.buttons.down.draw(context, "#0f0");
             this.buttons.left.draw(context, "#0ff");
             this.buttons.right.draw(context, "#f00");
-            this.buttons.b.draw(context, "#f0f");
-            this.buttons.a.draw(context, "#ff0");
+//            this.buttons.b.draw(context, "#f0f");
+//            this.buttons.a.draw(context, "#ff0");
         }
     }
 });
@@ -500,14 +497,14 @@ game.Triangle = Object.extend({
     },
 
     "draw" : function (context, color) {
-        context.beginPath();
-        context.moveTo(this.a.x, this.a.y);
-        context.lineTo(this.b.x, this.b.y);
-        context.lineTo(this.c.x, this.c.y);
-        context.closePath();
+//        context.beginPath();
+//        context.moveTo(this.a.x, this.a.y);
+//        context.lineTo(this.b.x, this.b.y);
+//        context.lineTo(this.c.x, this.c.y);
+//        context.closePath();
 
         context.strokeStyle = color;
-        context.stroke();
+//        context.stroke();
 
         if (this.pressed) {
             context.fillStyle = color;
