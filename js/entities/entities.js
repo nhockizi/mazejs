@@ -346,15 +346,13 @@ game.PlaceEntity = me.Entity.extend(
         }
 );
 game.UI = me.Renderable.extend({
-    init : function () {
-        this._super(me.Renderable, 'init', [new me.Vector2d(35, 395), 50, 50]);
-//        this.parent(new me.Vector2d(35, 395), 50, 50);
+    init : function (x,y,w,h) {
+        this._super(me.Renderable, 'init', [x,y,w,h]);
         this.isPersistent = true;
         this.floating = true;
 
         this.dpad = me.loader.getImage("ui-dpad");
         this.button = me.loader.getImage("ui-button");
-
         // Button areas
         var buttons = this.buttons = {
             // Directional pad
@@ -441,15 +439,15 @@ game.UI = me.Renderable.extend({
             }
         }
 
-        me.input.registerPointerEvent("mousedown", this, mousemove, true);
-        me.input.registerPointerEvent("mousemove", this, mousemove, true);
-        me.input.registerPointerEvent("mouseup", this, mouseup, true);
+        me.input.registerPointerEvent("pointermove", this, mousemove, true);
+        me.input.registerPointerEvent("pointermove", this, mousemove, true);
+        me.input.registerPointerEvent("pointerdown", this, mouseup, true);
     },
 
     "destroy" : function () {
-        me.input.releasePointerEvent("mousedown", this);
-        me.input.releasePointerEvent("mousemove", this);
-        me.input.releasePointerEvent("mouseup", this);
+        me.input.releasePointerEvent("pointermove", this);
+        me.input.releasePointerEvent("pointermove", this);
+        me.input.releasePointerEvent("pointerdown", this);
     },
 
     "draw" : function (context) {
