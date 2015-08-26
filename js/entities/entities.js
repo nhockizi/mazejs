@@ -439,12 +439,10 @@ game.UI = me.Renderable.extend({
         }
 
         me.input.registerPointerEvent("pointermove", this, mousemove, true);
-        me.input.registerPointerEvent("pointermove", this, mousemove, true);
         me.input.registerPointerEvent("pointerdown", this, mouseup, true);
     },
 
     "destroy" : function () {
-        me.input.releasePointerEvent("pointermove", this);
         me.input.releasePointerEvent("pointermove", this);
         me.input.releasePointerEvent("pointerdown", this);
     },
