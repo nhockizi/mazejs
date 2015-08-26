@@ -346,8 +346,9 @@ game.PlaceEntity = me.Entity.extend(
         }
 );
 game.UI = me.Renderable.extend({
-    "init" : function () {
-        this.parent(new me.Vector2d(35, 395), 50, 50);
+    init : function () {
+        this._super(me.Renderable, 'init', [new me.Vector2d(0, 0), 50, 50]);
+//        this.parent(new me.Vector2d(35, 395), 50, 50);
         this.isPersistent = true;
         this.floating = true;
 
@@ -378,8 +379,10 @@ game.UI = me.Renderable.extend({
                 new me.Vector2d(280, 660)
             ),
             // Action buttons
-            "b"     : new me.Rect(new me.Vector2d(690, 460), 80, 80),
-            "a"     : new me.Rect(new me.Vector2d(810, 460), 80, 80)
+//            "b"     : new me.Rect(new me.Vector2d(690, 460), 80, 80),
+//            "a"     : new me.Rect(new me.Vector2d(810, 460), 80, 80)
+            "b"     : new me.Rect(690, 460, 80, 80),
+            "a"     : new me.Rect(810, 460, 80, 80)
         };
 
         // Set keys

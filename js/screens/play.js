@@ -37,9 +37,9 @@ game.PlayScreen = me.ScreenObject.extend({
      *  action to perform on state change
      */
     onDestroyEvent: function() {
-        if (this.mobile_ui) {
+//        if (this.mobile_ui) {
             me.game.remove(this.mobile_ui, true);
             this.mobile_ui = null;
-        }
+//        }
     }
 });
