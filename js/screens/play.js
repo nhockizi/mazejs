@@ -28,8 +28,8 @@ game.PlayScreen = me.ScreenObject.extend({
         me.game.world.addChild(this.HUD);
         this.mobile_ui = null;
 //        if (me.device.isMobile) {
-            this.mobile_ui = new game.UI();
-            me.game.add(this.mobile_ui, Infinity);
+            this.mobile_ui = new game.UI(35, 395, 50, 50);
+            me.game.world.addChild(this.mobile_ui);
 //        }
 
     },
