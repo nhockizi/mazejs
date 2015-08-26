@@ -350,7 +350,6 @@ game.UI = me.Renderable.extend({
         this._super(me.Renderable, 'init', [35, 395, 50, 50]);
         this.isPersistent = true;
         this.floating = true;
-        return false;
         this.dpad = me.loader.getImage("ui-dpad");
         this.button = me.loader.getImage("ui-button");
         // Button areas
