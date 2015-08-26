@@ -5,6 +5,7 @@ var game = {
     data: {
         // score information
         score: 0,
+        item: 0,
     },
     /**
      *

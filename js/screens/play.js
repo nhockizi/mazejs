@@ -26,12 +26,20 @@ game.PlayScreen = me.ScreenObject.extend({
         // add our HUD to the game world
         this.HUD = new game.HUD.Container();
         me.game.world.addChild(this.HUD);
-
+        this.mobile_ui = null;
+//        if (me.device.isMobile) {
+            this.mobile_ui = new game.UI();
+            me.game.add(this.mobile_ui, Infinity);
+//        }
 
     },
     /**
      *  action to perform on state change
      */
     onDestroyEvent: function() {
+        if (this.mobile_ui) {
+            me.game.remove(this.mobile_ui, true);
+            this.mobile_ui = null;
+        }
     }
 });

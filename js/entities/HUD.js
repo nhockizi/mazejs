@@ -19,7 +19,7 @@ game.HUD.Container = me.Container.extend({
         this.name = "HUD";
 
         // add our child score object at position
-        this.addChild(new game.HUD.ScoreItem(0, "left", 600, 10));
+        this.addChild(new game.HUD.ScoreItem(0, "left", 45, 600));
     }
 });
 
@@ -87,7 +87,7 @@ game.HUD.TimerManager = me.Entity.extend(
                 this.z = Infinity;
                 this.floating = true;
                 // 5 minutes in milliseconds, count down to true
-                this.timer = new game.HUD.TimerItem(1 * 60 * 1000, false, 50, 10, "timer");
+                this.timer = new game.HUD.TimerItem(1 * 60 * 1000, false, 595, 600, "timer");
                 me.game.world.addChild(this.timer);
             },
             update: function()
@@ -110,7 +110,6 @@ game.HUD.TimerManager = me.Entity.extend(
                         }
                         // Bonus Show
                         glbBonusManager.bonus.update();
-
                     }
                 }
                 if (glbCompleteGame == true && this.timer.time_remain <= 0 && glbCompleteMessage == false) {
@@ -177,9 +176,12 @@ game.HUD.TimerItem = me.Renderable.extend({
 });
 game.Exit = me.Entity.extend({
     "onCollision": function(res, obj) {
-        glbCompleteGame = true;
+        if(game.data.item < 6){
+            glbCompleteGame = false;
+        }else{
+            glbCompleteGame = true;
+        }
         return false;
-//        me.state.change(me.state.GAME_OVER);
     }
 });
 /* BONUS */
@@ -196,7 +198,7 @@ game.HUD.BonusManager = me.Entity.extend(
                 this.complete = true;
                 // 5 minutes in milliseconds, count down to true
 //                console.log(time_remain);
-                this.bonus = new game.HUD.BonusItem(time_remain, true, 50, 40, "bonus");
+                this.bonus = new game.HUD.BonusItem(time_remain, true, 50, 550, "bonus");
                 me.game.world.addChild(this.bonus);
             },
             update: function()

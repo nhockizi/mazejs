@@ -36,7 +36,6 @@ game.BonusQuestionScreen = me.ScreenObject.extend(
             {
                 this.savedData = null;
                 this.handler = null;
-
             },
             onResetEvent: function()
             {
@@ -168,7 +167,7 @@ game.RadioInput = me.Renderable.extend(
 
                 this.value = text;
                 //this.optionAnswer = null;
-
+                this.floating = true;
                 this.status = "INIT";
                 this.pos.x = x;
                 this.pos.y = y;
@@ -198,13 +197,6 @@ game.RadioInput = me.Renderable.extend(
             destroy: function()
             {
                 me.game.world.removeChild(this.optionAnswer);
-            },
-            /**
-             * update the place
-             */
-            update: function(dt)
-            {
-                return true;
             }
         });
 
@@ -219,8 +211,8 @@ game.inputRadioStype = me.GUI_Object.extend(
                 this.z = 1000;
                 this._super(me.GUI_Object, 'init', [x, y, settings]);
                 this.position = position;
-                
                 this.status = "INIT";
+                this.floating = true;
             },
             update: function(dt)
             {
@@ -253,10 +245,9 @@ game.inputRadioStype = me.GUI_Object.extend(
             },
             onClick: function()
             {
-                glbAnswers[this.position].onMouseDown();
-                //this.image = me.loader.getImage("ansselected");
-                //this.status = "SELECTED";
-//                alert("onClick");
+//                glbAnswers[this.position].onMouseDown();
+                this.image = me.loader.getImage("ansselected");
+                this.status = "SELECTED";
             }
         });
 
