@@ -32,6 +32,7 @@ game.PopupScreen = me.ScreenObject.extend({
     init: function() {
         this.savedData = null;
         this.handler = null;
+        this.isPersistent = true;
     },
     onResetEvent: function() {
         var gImageBoard = me.loader.getImage('gameoverbg');
@@ -326,7 +327,7 @@ game.inputRadioStype = me.GUI_Object.extend(
             },
             onClick: function()
             {
-//                glbAnswers[this.position].onMouseDown();
+                glbAnswers[this.position].onMouseDown();
                 this.image = me.loader.getImage("ansselected");
                 this.status = "SELECTED";
             }
