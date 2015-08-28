@@ -1,4 +1,3 @@
-
 var glbQuiz = [
     {question: "Question 01",
         answers: [{strtitle: "Answer 1. 01", isright: true},
@@ -29,58 +28,139 @@ var glbQuiz = [
 ];
 var glbAnswers = new Array();
 var glbQuestion = null;
+game.PopupScreen = me.ScreenObject.extend({
+    init: function() {
+        this.savedData = null;
+        this.handler = null;
+    },
+    onResetEvent: function() {
+        var gImageBoard = me.loader.getImage('gameoverbg');
+        me.game.world.addChild(new me.Sprite(
+                me.game.viewport.width / 2 - gImageBoard.width / 2,
+                me.game.viewport.height / 2 - gImageBoard.height / 2,
+                {image: gImageBoard}
+        ));
+        //me.game.world.addChild(new BackgroundLayer('bg', 1));
+        // PlayAgain button
+        if (glbBonusQuestion == true) {
+            var quiz = 0;
+            glbQuestion = quiz;
+            var question = glbQuiz[quiz]["question"];
+            var answers = glbQuiz[quiz]["answers"];
+            // Answer
+            var _top_answer = me.game.viewport.height / 2 - 40;
+            var _left_answer = me.game.viewport.width / 2 - 200;
 
-game.BonusQuestionScreen = me.ScreenObject.extend(
-        {
-            init: function()
-            {
-                this.savedData = null;
-                this.handler = null;
-            },
-            onResetEvent: function()
-            {
-                var gImageBoard = me.loader.getImage('gameoverbg');
-                me.game.world.addChild(new me.Sprite(
-                    me.game.viewport.width / 2 - gImageBoard.width / 2,
-                    me.game.viewport.height / 2 - gImageBoard.height / 2,
-                    {image : gImageBoard}
-                ));
-                
-                var quiz = 0;
-                glbQuestion = quiz;
-                var question = glbQuiz[quiz]["question"];
-                var answers = glbQuiz[quiz]["answers"];
-                // Answer
-                var _top_answer = me.game.viewport.height / 2 - 40;
-                var _left_answer = me.game.viewport.width / 2 - 200;
-                
-                this.dialog = new game.bonusDialog(question,answers,_left_answer,_top_answer);
-                this.btnSubmit = new btnSubmit(me.game.viewport.width / 2 - 60, me.game.viewport.height / 2);
-                me.game.world.addChild(this.btnSubmit, 15);
-                
-                me.game.world.addChild(this.dialog, 12);
-                for (var i = 0; i < answers.length; i++) {
+            this.dialog = new game.bonusDialog(question, answers, _left_answer, _top_answer);
+            this.btnSubmit = new btnSubmit(me.game.viewport.width / 2 - 60, me.game.viewport.height / 2);
+
+            for (var i = 0; i < answers.length; i++) {
 //                    this.optionAnswer = new game.inputRadioStype(_left_answer + i * 150 - 30, _top_answer, "ansnothing", i);
 //                    me.game.world.addChild(this.optionAnswer, 12);
-                    var _answer = new game.RadioInput(_left_answer + i * 150, _top_answer, answers[i]["strtitle"], i);
-                    me.game.world.addChild(_answer, i + 20);
-////                    // Thêm vào mảng Entity
-//                    glbAnswers[i] = _answer;
-                }
-//                console.log("asd");return false;
-                // Submit button
-                
-            },
-            onDestroyEvent: function() {
-                me.game.world.removeChild(this.dialog);
-                me.game.world.removeChild(this.btnSubmit);
+                var _answer = new game.RadioInput(_left_answer + i * 150, _top_answer, answers[i]["strtitle"], i);
+                me.game.world.addChild(_answer, i + 20);
+//                    // Thêm vào mảng Entity
+                glbAnswers[i] = _answer;
             }
-        });
+            me.game.world.addChild(this.btnSubmit, 15);
 
+            me.game.world.addChild(this.dialog, 12);
+//                console.log("asd");return false;
+            // Submit button
+        } else {
+            this.btnPlayagain = new btnPlayagain(me.game.viewport.width / 2 - 60, me.game.viewport.height / 2);
+            me.game.world.addChild(this.btnPlayagain, 12);
+
+            this.dialog = new game.gameoverDialog();
+            me.game.world.addChild(this.dialog, 12);
+        }
+
+    },
+    onDestroyEvent: function() {
+        // unregister the event
+        //me.event.unsubscribe(this.handler);
+        /*
+         me.input.unbindKey(me.input.KEY.ENTER);
+         me.input.unbindKey(me.input.KEY.SPACE);
+         me.input.unbindPointer(me.input.mouse.LEFT);
+         this.ground1 = null;
+         this.ground2 = null;
+         this.font = null;
+         me.audio.stop("theme");
+         */
+    }
+});
+game.gameoverDialog = me.Renderable.extend({
+    // constructor
+    init: function() {
+        // size does not matter, it's just to avoid having a
+        // renderable
+        this._super(me.Renderable, 'init', [0, 0, 10, 10]);
+
+
+        //this.font.textAlign = "center";
+        this.notice_1 = 'Congratulations!';
+        this.font_notice_1 = new me.Font("Arial", 30, "#2ca606", "center");
+        this.font_notice_1.bold();
+
+        this.notice_2 = 'You have completed a great game.';
+        this.font_notice_2 = new me.Font("Arial", 29, "#2ca606", "center");
+
+        this.notice_3 = 'YOUR SCORES:';
+        this.font_notice_3 = new me.Font("Arial", 30, "#d09b2c", "right");
+
+
+        this.score = game.data.score.toString();
+        this.font_score = new me.Font("Arial", 30, "#EE0000", "left");
+    },
+    /**
+     * draw the score
+     */
+    draw: function(context) {
+        //var stepsText = this.font.measureText(context, '1');
+
+        var _top_popup = me.game.viewport.height / 2 - 150;
+
+        // Notice 1
+        this.font_notice_1.draw(
+                context,
+                this.notice_1,
+                me.game.viewport.width / 2,
+                _top_popup + 0
+                );
+
+        // Notice 2
+        this.font_notice_2.draw(
+                context,
+                this.notice_2,
+                me.game.viewport.width / 2,
+                _top_popup + 40
+                );
+
+        // Notice 2
+        this.font_notice_3.draw(
+                context,
+                this.notice_3,
+                me.game.viewport.width / 2 + 80,
+                _top_popup + 80
+                );
+
+        // Score
+        this.font_score.draw(context, this.score,
+                me.game.viewport.width / 2 + 85,
+                _top_popup + 80
+                );
+        return true;
+        // Opacity
+        //me.Renderable.alpha = 0.5;
+
+
+    }
+});
 game.bonusDialog = me.Renderable.extend(
         {
             // constructor
-            init: function(question,answers,x,y)
+            init: function(question, answers, x, y)
             {
                 // size does not matter, it's just to avoid having a
                 // renderable
@@ -99,8 +179,8 @@ game.bonusDialog = me.Renderable.extend(
 
                 this.score = game.data.score.toString();
                 this.font_score = new me.Font("Arial", 30, "#EE0000", "left");
-                
-                
+
+
 //                 for (var i = 0; i < answers.length; i++) {
 //                     if(i == 0){
 //                        this.answer1 = answers[i]["strtitle"];
@@ -154,6 +234,7 @@ game.bonusDialog = me.Renderable.extend(
 //                        this.pos.x + 350,
 //                        this.pos.y
 //                        );
+                return true;
             }
         });
 
@@ -164,10 +245,9 @@ game.RadioInput = me.Renderable.extend(
             {
                 this._super(me.Renderable, 'init', [x, y, 10, 10]);
                 this.font = new me.Font("Arial", 20, "#EE0000");
-
                 this.value = text;
                 //this.optionAnswer = null;
-                this.floating = true;
+                this.floating = false;
                 this.status = "INIT";
                 this.pos.x = x;
                 this.pos.y = y;
@@ -213,6 +293,7 @@ game.inputRadioStype = me.GUI_Object.extend(
                 this.position = position;
                 this.status = "INIT";
                 this.floating = true;
+                this.isPersistent = true;
             },
             update: function(dt)
             {
@@ -290,7 +371,6 @@ var btnSubmit = me.GUI_Object.extend({
         return false;
     },
     onClick: function() {
-
         var _num_select = 0;
         var _index_select = null;
         var _index_right = null;
@@ -309,7 +389,6 @@ var btnSubmit = me.GUI_Object.extend({
             if (_index_select == _index_right) {
                 game.data.score += 50;
                 this.onAddScore();
-
                 //me.state.change(me.state.GAME_OVER);
                 //alert("Cộng điểm");
                 //this.optionAnswer.status = "SELECTED";
@@ -329,10 +408,9 @@ var btnSubmit = me.GUI_Object.extend({
             // Không cho ấn Submit nhiều lần
             // @todo
             me.game.world.removeChild(this);
-//            me.state.change(me.state.GAME_OVER);
-
+            glbBonusQuestion = false;
+            me.state.change(me.state.POPUP);
         }
-
     },
     /**
      * callback when fully visible

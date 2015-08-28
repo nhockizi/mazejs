@@ -10,7 +10,7 @@ game.HUD.Container = me.Container.extend({
         this._super(me.Container, 'init');
 
         // persistent across level change
-        this.isPersistent = true;
+//        this.isPersistent = true;
 
         // make sure our object is always draw first
         this.z = Infinity;
@@ -46,8 +46,9 @@ game.HUD.ScoreItem = me.Renderable.extend({
         game.data.score = score;
         this.pos.x = x;
         this.pos.y = y;
+//        this.z = Infinity;
         // make sure we use screen coordinates
-        this.floating = false;
+//        this.floating = false;
     },
     /**
      * update function
@@ -85,9 +86,9 @@ game.HUD.TimerManager = me.Entity.extend(
 
                 // make sure our object is always draw first
                 this.z = Infinity;
-                this.floating = true;
+                this.floating = false;
                 // 5 minutes in milliseconds, count down to true
-                this.timer = new game.HUD.TimerItem(1 * 60 * 1000, false, 595, 600, "timer");
+                this.timer = new game.HUD.TimerItem(0.05 * 60 * 1000, false, 595, 600, "timer");
                 me.game.world.addChild(this.timer);
             },
             update: function()
@@ -108,14 +109,16 @@ game.HUD.TimerManager = me.Entity.extend(
                             glbBonusManager = new game.HUD.BonusManager(this.timer.time_remain);
                             me.game.world.addChild(glbBonusManager);
                         }
+                        glbBonusQuestion = true;
                         // Bonus Show
                         glbBonusManager.bonus.update();
                     }
                 }
                 if (glbCompleteGame == true && this.timer.time_remain <= 0 && glbCompleteMessage == false) {
 //                    glbPlaceManager.glbCompleteGame();
+                    glbBonusQuestion = true;
                     glbCompleteMessage = true;
-                    me.state.change(me.state.BONUS_QUESTION);
+                    me.state.change(me.state.POPUP);
                 }
             }
         });
@@ -176,9 +179,9 @@ game.HUD.TimerItem = me.Renderable.extend({
 });
 game.Exit = me.Entity.extend({
     "onCollision": function(res, obj) {
-        if(game.data.item < 6){
+        if (game.data.item < 6) {
             glbCompleteGame = false;
-        }else{
+        } else {
             glbCompleteGame = true;
         }
         return false;

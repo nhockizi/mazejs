@@ -251,7 +251,7 @@ game.PlaceManager = me.Entity.extend(
                 var finalPos = me.video.renderer.getHeight() - this.width / 2 - 96;
                 this.endTween
                         .onComplete(function() {
-                            me.state.change(me.state.BONUS_QUESTION);
+                            me.state.change(me.state.POPUP);
                         });
                 this.endTween.start();
             },
@@ -347,39 +347,37 @@ game.PlaceEntity = me.Entity.extend(
 );
 game.UI = me.Renderable.extend({
     init : function () {
-        this._super(me.Renderable, 'init', [35, 395, 50, 50]);
+        this._super(me.Renderable, 'init', [35, 395, 870, 220]);
+//        this.parent(new me.Vector2d(35, 395), 50, 50);
         this.isPersistent = true;
         this.floating = true;
+
         this.dpad = me.loader.getImage("ui-dpad");
         this.button = me.loader.getImage("ui-button");
-//         Button areas
+
+        // Button areas
         var buttons = this.buttons = {
             // Directional pad
             "up"    : new game.Triangle(
-                new me.Vector2d(140, 500),
-                new me.Vector2d(-20, 360),
-                new me.Vector2d(300, 360)
+                new me.Vector2d(325, 575),
+                new me.Vector2d(165, 435),
+                new me.Vector2d(585, 435)
             ),
             "down"  : new game.Triangle(
-                new me.Vector2d(140, 500),
-                new me.Vector2d(300, 640),
-                new me.Vector2d(-20, 640)
+                new me.Vector2d(325, 575),
+                new me.Vector2d(585, 755),
+                new me.Vector2d(50, 755)
             ),
             "left"  : new game.Triangle(
-                new me.Vector2d(140, 500),
-                new me.Vector2d(0, 660),
-                new me.Vector2d(0, 340)
+                new me.Vector2d(325, 575),
+                new me.Vector2d(185, 735),
+                new me.Vector2d(185, 415)
             ),
             "right" : new game.Triangle(
-                new me.Vector2d(140, 500),
-                new me.Vector2d(280, 340),
-                new me.Vector2d(280, 660)
-            ),
-            // Action buttons
-//            "b"     : new me.Rect(new me.Vector2d(690, 460), 80, 80),
-//            "a"     : new me.Rect(new me.Vector2d(810, 460), 80, 80)
-            "b"     : new me.Rect(690, 460, 80, 80),
-            "a"     : new me.Rect(810, 460, 80, 80)
+                new me.Vector2d(325, 575),
+                new me.Vector2d(465, 415),
+                new me.Vector2d(465, 735)
+            )
         };
 
         // Set keys
@@ -387,8 +385,6 @@ game.UI = me.Renderable.extend({
         buttons.down.key    = me.input.KEY.DOWN;
         buttons.left.key    = me.input.KEY.LEFT;
         buttons.right.key   = me.input.KEY.RIGHT;
-        buttons.b.key       = me.input.KEY.SHIFT;
-        buttons.a.key       = me.input.KEY.SHIFT;
 
         // Set default button properties
         for (var name in buttons) {
@@ -401,7 +397,6 @@ game.UI = me.Renderable.extend({
             // Iterate each button
             for (var name in buttons) {
                 var button = buttons[name];
-
                 // Check if button is pressed by this touch
                 var pressed = button.containsPoint(e.gameX, e.gameY);
 
@@ -425,7 +420,6 @@ game.UI = me.Renderable.extend({
             // Iterate each button
             for (var name in buttons) {
                 var button = buttons[name];
-
                 // Check if button is released by this touch
                 var released = (button.id === e.pointerId);
 
@@ -438,24 +432,28 @@ game.UI = me.Renderable.extend({
             }
         }
 
+        me.input.registerPointerEvent("pointerdown", this, mousemove, true);
         me.input.registerPointerEvent("pointermove", this, mousemove, true);
-        me.input.registerPointerEvent("pointerdown", this, mouseup, true);
+        me.input.registerPointerEvent("pointerup", this, mouseup, true);
     },
 
     "destroy" : function () {
-        me.input.releasePointerEvent("pointermove", this);
         me.input.releasePointerEvent("pointerdown", this);
+        me.input.releasePointerEvent("pointermove", this);
+        me.input.releasePointerEvent("pointerup", this);
     },
 
     "draw" : function (context) {
-        context.drawImage(this.dpad, 200, 420);
+         context.drawImage(this.dpad, 220, 430);
+//         context.drawImage(this.dpad, 35, 395);
+//         context.drawImage(this.button, 686, 456);
+//         context.drawImage(this.button, 806, 456);
+
         if (me.debug.renderHitBox) {
             this.buttons.up.draw(context, "#00f");
             this.buttons.down.draw(context, "#0f0");
             this.buttons.left.draw(context, "#0ff");
             this.buttons.right.draw(context, "#f00");
-//            this.buttons.b.draw(context, "#f0f");
-//            this.buttons.a.draw(context, "#ff0");
         }
     }
 });
@@ -488,7 +486,6 @@ game.Triangle = Object.extend({
         function sign(u, v) {
             return (x - v.x) * (u.y - v.y) - (u.x - v.x) * (y - v.y);
         }
-
         return (
             sign(this.a, this.b) > 0 &&
             sign(this.b, this.c) > 0 &&
@@ -496,15 +493,16 @@ game.Triangle = Object.extend({
         );
     },
 
-    "draw" : function (context, color) {
-//        context.beginPath();
-//        context.moveTo(this.a.x, this.a.y);
-//        context.lineTo(this.b.x, this.b.y);
-//        context.lineTo(this.c.x, this.c.y);
-//        context.closePath();
+    "draw" : function (renderer, color) {
+    	var context = renderer.context;
+        context.beginPath();
+        context.moveTo(this.a.x, this.a.y);
+        context.lineTo(this.b.x, this.b.y);
+        context.lineTo(this.c.x, this.c.y);
+        context.closePath();
 
         context.strokeStyle = color;
-//        context.stroke();
+        context.stroke();
 
         if (this.pressed) {
             context.fillStyle = color;

@@ -3,6 +3,7 @@ var glbTimerManager = null;
 var glbBonusManager = null;
 var glbCompleteGame = false;
 var glbCompleteMessage = false;
+var glbBonusQuestion = false;
 var glbSoundEffects = true;
 game.PlayScreen = me.ScreenObject.extend({
     /**
@@ -27,19 +28,19 @@ game.PlayScreen = me.ScreenObject.extend({
         this.HUD = new game.HUD.Container();
         me.game.world.addChild(this.HUD);
         this.mobile_ui = null;
-//        if (me.device.isMobile) {
+        if (me.device.isMobile) {
             this.mobile_ui = new game.UI();
-            me.game.world.addChild(this.mobile_ui);
-//        }
+            me.game.world.addChild(this.mobile_ui, Infinity);
+        }
 
     },
     /**
      *  action to perform on state change
      */
     onDestroyEvent: function() {
-//        if (this.mobile_ui) {
+        if (this.mobile_ui) {
             me.game.world.removeChild(this.mobile_ui, true);
             this.mobile_ui = null;
-//        }
+        }
     }
 });
